@@ -1,0 +1,9 @@
+# Limit this image's context without changing the upstream Docker build.
+**
+!requirements-guardova.txt
+!search.py
+!scrape.py
+!LICENSE
+!guardova-entrypoint.sh
+!guardova_robin/
+!guardova_robin/*.py

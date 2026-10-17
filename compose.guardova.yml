@@ -1,0 +1,26 @@
+services:
+  robin:
+    build:
+      context: .
+      dockerfile: Dockerfile.guardova
+    image: guardova-robin:1
+    restart: unless-stopped
+    init: true
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    pids_limit: 96
+    mem_limit: 384m
+    cpus: 1.0
+    stop_grace_period: 190s
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m,mode=1777
+    environment:
+      GUARDOVA_ORIGIN: ${GUARDOVA_ORIGIN:?Set the Guardova application origin}
+      GUARDOVA_WORKER_ID: robin-1
+      DARKNET_WORKER_SECRET_FILE: /run/secrets/worker_token
+    secrets: [worker_token]
+    # No inbound ports, app database, Docker socket or host directories.
+secrets:
+  worker_token:
+    file: ${DARKNET_WORKER_SECRET_PATH:?Set the private worker token file path}

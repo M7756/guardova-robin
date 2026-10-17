@@ -1,0 +1,16 @@
+FROM python:3.12-slim
+RUN apt-get update && apt-get install -y --no-install-recommends tor ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --gid 10001 collector \
+    && useradd --uid 10001 --gid 10001 --create-home collector
+WORKDIR /app
+COPY requirements-guardova.txt ./
+RUN pip install --no-cache-dir -r requirements-guardova.txt
+COPY search.py scrape.py ./
+COPY LICENSE ./LICENSE.robin
+COPY guardova_robin ./guardova_robin
+COPY guardova-entrypoint.sh /usr/local/bin/guardova-entrypoint
+RUN chmod 0555 /usr/local/bin/guardova-entrypoint
+USER 10001:10001
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+ENTRYPOINT ["guardova-entrypoint"]

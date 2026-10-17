@@ -1,0 +1,11 @@
+# Minimal collector runtime. Upstream UI/MCP/model packages are not installed.
+requests==2.32.5
+beautifulsoup4==4.14.2
+PySocks==1.7.1
+idna==3.18
+# Resolved transitive dependencies, pinned for repeatable image builds.
+certifi==2026.7.22
+charset-normalizer==3.5.2
+urllib3==2.8.0
+soupsieve==3.0.3
+typing-extensions==4.16.0
